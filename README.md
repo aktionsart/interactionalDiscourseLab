@@ -19,7 +19,7 @@ From `R`, install `devtools` if you don't have it:
 
 Then install IDLab with:
 
-    devtools::install_github("/interactionalDiscourseLab")
+    devtools::install_github("aktionsart/interactionalDiscourseLab")
 
 You only to do this once. 
 
