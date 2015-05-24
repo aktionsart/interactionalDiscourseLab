@@ -1,0 +1,33 @@
+Package: interactionalDiscourseLab
+Type: Package
+Title: Web interface for investigating annotated discourse
+Version: 0.1
+Date: 2015-05-23
+Author: c(
+    person("Seongsook", "Choi", email = "interactionaldiscourselab@gmail.com", role = c("cre","aut")),
+    person("Christophe", "Ladroue", email = "chris.ladroue+IDLab@gmail.com", role = c("cre","aut")))
+Maintainer: Seongsook Choi <interactionaldiscourselab@gmail.com>
+Description: The interactional discourse lab (IDLab) is a free tool available to researchers analysing spoken interaction. This web tool
+    was initially developed as a novel method for the quantitative analysis of the discourse of interdisciplinary research engagement,
+    but it can be used in any interactional context (e.g. classrooms, meetings, conversations).
+    Uniquely, it focuses on the interaction itself, rather than on merely spoken content. The tool is still in development and currently
+    provides fairly basic graphic and network representations of interactional relationships.
+License: GPL
+LazyData: TRUE
+Depends:
+    R (>= 3.1.0),
+    shiny
+URL: http://interactionaldiscourselab.net
+Imports:
+    rCharts,
+    dplyr,
+    tidyr,
+    magrittr,
+    stringr,
+    igraph,
+    ggplot2,
+    MultinomialCI,
+    rmarkdown,
+    lazyeval
+Suggests:
+    testthat
