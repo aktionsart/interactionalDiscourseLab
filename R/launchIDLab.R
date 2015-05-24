@@ -353,6 +353,7 @@ launchIDLab <- function(){
   tr("Please visit"), "<a href='http://interactionalDiscourseLab.net'>http://interactionalDiscourseLab.net</a>",
   "<h3>Change log</h3>
   <ul>
+  <li>24 May 2015: complete rewrite, packaging and published the code on github.</li>
   <li>02 Nov 2014: reports can be generated as pdf, Word document or html.</li>
   <li>05 Oct 2014: tag list now shows tag name instead of id.</li>
   </ul>
