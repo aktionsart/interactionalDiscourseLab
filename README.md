@@ -13,15 +13,16 @@ You can use the tool here: <https://interactionaldiscourselab.shinyapps.io/IDLab
 This is an `R` package that uses `shiny` to render its user interface. To install `R`, go to <http://www.r-project.org/>.
 
 # Install
-From `R`, install `devtools` if you don't have it:
+From `R`, install `devtools` if you don't have it or if you're not sure:
 
     install.packages('devtools')
 
-Then install IDLab with:
+Then install rCharts and IDLab with:
 
+    devtools::install_github('ramnathv/rCharts')
     devtools::install_github("aktionsart/interactionalDiscourseLab")
 
-You only to do this once. 
+You only need to do this once. 
 
 # Running the lab
 From `R`, use:
