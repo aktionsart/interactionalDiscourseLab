@@ -57,16 +57,16 @@ launchIDLab <- function(){
 
         tabPanel("Interactions",
                  htmlOutput("sanityCheck2"),
-                 tags$p(string_NetworkDescription),
-                 tags$p(string_ConfidenceInterval),
-                 tags$em("Note: turns considered are those whose tag is in the current selection."),
+                 uiOutput("string_NetworkDescription"),
+                 uiOutput("string_ConfidenceInterval"),
+                 uiOutput("noteTagSelection"),
                  tags$hr(),
-                 tags$h3("Interactions between tags, for contiguous turns"),
-                 tags$p(string_TagNetwork),
+                 uiOutput("interactionTags"),
+                 uiOutput("string_TagNetwork"),
                  plotOutput("tagNetwork",height="600px"),
                  tags$hr(),
-                 tags$h3("Interactions between speakers, for contiguous turns"),
-                 tags$p(string_SpeakerNetwork),
+                 uiOutput("interactionSpeakers"),
+                 uiOutput("string_SpeakerNetwork"),
                  plotOutput("speakerNetwork",height="600px")
         ),
 
@@ -138,6 +138,32 @@ launchIDLab <- function(){
 
       output$speakersByTagText <- renderUI({
         tags$p(tr("string_SpeakersByTag"))
+      })
+
+      # # # # # # # # # # # # # #    UI: Interactions      # # # # # # # # # # # # # #
+
+      output$string_NetworkDescription <- renderUI({
+        tags$p(tr("string_NetworkDescription"))
+      })
+
+      output$string_ConfidenceInterval <- renderUI({
+        tags$p(tr("string_ConfidenceInterval"))
+      })
+
+      output$noteTagSelection <- renderUI({
+        tags$em(tr("Note: turns considered are those whose tag is in the current selection."))
+      })
+
+      output$interactionTags <- renderUI({
+        tags$h3(tr("Interactions between tags, for contiguous turns"))
+      })
+
+      output$interactionSpeakers <- renderUI({
+        tags$h3(tr("Interactions between speakers, for contiguous turns"))
+      })
+
+      output$string_SpeakerNetwork <- renderUI({
+        tags$p(tr("string_SpeakerNetwork"))
       })
 
       # # # # # # # # # # # # # #    Parsing and computing      # # # # # # # # # # # # # #
@@ -280,11 +306,11 @@ launchIDLab <- function(){
       # # # # # # # # # # # # # #    interactions      # # # # # # # # # # # # # #
 
       output$tagNetwork <- renderPlot({
-        plotSequence(countTagSequence(turnTaking()), countTags()$n, "Tag types sequences")
+        plotSequence(countTagSequence(turnTaking()), countTags()$n, tr("Tag types sequences"))
       })
 
       output$speakerNetwork <- renderPlot({
-        plotSequence(countSpeakerSequence(turnTaking()), countSpeakers()$n, "Contiguous turn takings")
+        plotSequence(countSpeakerSequence(turnTaking()), countSpeakers()$n, tr("Contiguous turn takings"))
       })
 
       # # # # # # # # # # # # # #    Timelines      # # # # # # # # # # # # # #
