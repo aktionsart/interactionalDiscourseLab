@@ -1,7 +1,7 @@
 Package: interactionalDiscourseLab
 Type: Package
 Title: Web interface for investigating annotated spoken discourse
-Version: 0.1
+Version: 0.1.1
 Date: 2015-05-23
 Author: c(
     person("Seongsook", "Choi", email = "interactionaldiscourselab@gmail.com", role = c("cre","aut")),

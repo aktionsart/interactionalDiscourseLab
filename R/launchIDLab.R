@@ -71,12 +71,12 @@ launchIDLab <- function(){
         ),
 
         tabPanel("Timeline",
-                 tags$p(string_TimelineDescription01),
-                 tags$p(string_TimelineDescription02),
+                 uiOutput("string_TimelineDescription01"),
+                 uiOutput("string_TimelineDescription02"),
                  plotOutput("timeline", height="600px"),
                  tags$hr(),
-                 tags$p(string_TimelineDescription03),
-                 tags$p(string_TimelineDescription04),
+                 uiOutput("string_TimelineDescription03"),
+                 uiOutput("string_TimelineDescription04"),
                  plotOutput("timeline2", height="600px")
         ),
 
@@ -166,6 +166,23 @@ launchIDLab <- function(){
         tags$p(tr("string_SpeakerNetwork"))
       })
 
+      # # # # # # # # # # # # # #    UI: timelines      # # # # # # # # # # # # # #
+      output$string_TimelineDescription01 <- renderUI({
+        tags$p(tr("string_TimelineDescription01"))
+      })
+
+      output$string_TimelineDescription02 <- renderUI({
+        tags$p(tr("string_TimelineDescription02"))
+      })
+
+      output$string_TimelineDescription03 <- renderUI({
+        tags$p(tr("string_TimelineDescription03"))
+      })
+
+      output$string_TimelineDescription04 <- renderUI({
+        tags$p(tr("string_TimelineDescription04"))
+      })
+
       # # # # # # # # # # # # # #    Parsing and computing      # # # # # # # # # # # # # #
 
             # get the filename from the GUI
@@ -181,7 +198,6 @@ launchIDLab <- function(){
           parsed <- parses(inFile$datapath)
         else
           parsed <- simulateMeeting(nTurns = 500, seed = 42) %>% dplyr::select(speaker,tag)
-
 
         cleanupParsed(parsed)
       })
@@ -375,6 +391,8 @@ launchIDLab <- function(){
   <li>Christophe Ladroue
   </ul>",
   tr("Contact:"), " <a href='mailto:interactionalDiscourseLab@gmail.com'>", "Email", "</a>",
+  "<p></p>",
+  "<p>", tr("Translation:"), "Nora M. Basurto- Santos, Universidad Veracruzana, Mexico","</p>",
   "<h3>",tr("Instructions"), "</h3>",
   tr("Please visit"), "<a href='http://interactionalDiscourseLab.net'>http://interactionalDiscourseLab.net</a>",
   "<h3>Change log</h3>
