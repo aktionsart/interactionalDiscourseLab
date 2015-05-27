@@ -4,13 +4,13 @@ test_that("simulate meeting",{
 
   X <- simulateMeeting(seed = 42, nSpeakers = 4, nTurns = 10, nTags = 5)
 
-  expectedSpeaker <- structure(c(4L, 1L, 4L, 2L, 4L, 4L, 1L, 4L, 3L, 2L),
-                               .Label = c("simulatedSpeaker1","simulatedSpeaker2", "simulatedSpeaker3", "simulatedSpeaker4"),
+  expectedSpeaker <- structure(c(1L, 3L, 2L, 2L, 1L, 3L, 3L, 2L, 1L, 2L),
+                               .Label = c("Ava", "Isabella", "Thomas"),
                                class = "factor")
 
 
-  expectedTag <- structure(c(2L, 4L, 4L, 2L, 2L, 4L, 3L, 1L, 3L, 1L),
-                           .Label = c("simulatedTag1", "simulatedTag3", "simulatedTag4", "simulatedTag5"),
+  expectedTag <- structure(c(1L, 1L, 1L, 5L, 4L, 5L, 2L, 5L, 5L, 3L),
+                           .Label = c("challenge","explanation", "joke", "qualify", "repeat"),
                            class = "factor")
 
   expect_identical(X$speaker, expectedSpeaker)
@@ -78,10 +78,10 @@ test_that("makeTurnTaking",{
 
   # manually checked expected answer
   E <- structure(list(
-                  speaker1 = structure(1:2, .Label = c("simulatedSpeaker1", "simulatedSpeaker4"), class = "factor"),
-                  tag1     = structure(c(1L, 1L), .Label = c("simulatedTag1", "simulatedTag2", "simulatedTag5"), class = "factor"),
-                  speaker2 = structure(c(2L, 1L), .Label = c("simulatedSpeaker1", "simulatedSpeaker4"), class = "factor"),
-                  tag2     = structure(1:2, .Label = c("simulatedTag1", "simulatedTag2", "simulatedTag5"), class = "factor")),
+                  speaker1 = structure(1:2, .Label = c("Charlie", "Sophie"), class = "factor"),
+                  tag1     = structure(c(4L, 3L), .Label = c("agree", "confirmation", "initiate", "repeat"), class = "factor"),
+                  speaker2 = structure(c(2L, 1L), .Label = c("Charlie", "Sophie"), class = "factor"),
+                  tag2     = structure(3:4, .Label = c("agree", "confirmation", "initiate", "repeat"), class = "factor")),
             class = "data.frame", row.names = c(NA, -2L), .Names = c("speaker1", "tag1", "speaker2", "tag2"))
 
   expect_identical(makeTurnTaking(X), E)

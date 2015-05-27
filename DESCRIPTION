@@ -1,7 +1,7 @@
 Package: interactionalDiscourseLab
 Type: Package
 Title: Web interface for investigating annotated spoken discourse
-Version: 0.1.1
+Version: 0.1.2
 Date: 2015-05-23
 Author: c(
     person("Seongsook", "Choi", email = "interactionaldiscourselab@gmail.com", role = c("cre","aut")),
@@ -12,7 +12,7 @@ Description: The interactional discourse lab (IDLab) is a free tool available to
     but it can be used in any interactional context (e.g. classrooms, meetings, conversations).
     Uniquely, it focuses on the interaction itself, rather than on merely spoken content. The tool is still in development and currently
     provides fairly basic graphic and network representations of interactional relationships.
-License: GPL
+License: GPL | file LICENSE
 LazyData: TRUE
 Depends:
     R (>= 3.1.0),

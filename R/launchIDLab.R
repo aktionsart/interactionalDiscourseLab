@@ -30,10 +30,12 @@ launchIDLab <- function(){
       tags$hr(),
       uiOutput("tagList"),
       tags$hr(),
+      tags$h3("Language:"),
       radioButtons(inputId = "language", label = "",
                    choices = c("English" = "en", "Espa\u00f1ol" = "es"),
                    selected = "en"),
-      uiOutput("savingOptionsUI")
+      uiOutput("savingOptionsUI"),
+      uiOutput("timelineSliderUI")
       ),
 
       mainPanel(
@@ -71,13 +73,11 @@ launchIDLab <- function(){
         ),
 
         tabPanel("Timeline",
-                 uiOutput("string_TimelineDescription01"),
-                 uiOutput("string_TimelineDescription02"),
-                 plotOutput("timeline", height="600px"),
-                 tags$hr(),
                  uiOutput("string_TimelineDescription03"),
-                 uiOutput("string_TimelineDescription04"),
-                 plotOutput("timeline2", height="600px")
+                 uiOutput("string_TimelineDescription05"),
+                 plotOutput("timelineSlider", height="500px"),
+                 plotOutput("timelineWhole", height="100px"),
+                 uiOutput("string_TimelineDescription06")
         ),
 
         tabPanel("Saving",
@@ -108,6 +108,16 @@ launchIDLab <- function(){
         downloadButton('downloadReportDocx', tr('Save as a Word document')),
         tags$br(),tags$br(),
         downloadButton('downloadReportHTML', tr('Save as a webpage')))
+      })
+
+      output$timelineSliderUI <- renderUI({
+        conditionalPanel(
+          condition = "input.theTabs == 'Timeline'",
+          tags$hr(),
+          tags$h3(tr("Timeline controls")),
+          sliderInput("startingPoint", tr("Starting point"), 1, totalTurns(), 1, step = 1),
+          sliderInput("windowSize", tr("Window size"), 5, max(20, totalTurns()), 20, step = 1)
+        )
       })
 
       output$uploadUI <- renderUI({
@@ -167,20 +177,17 @@ launchIDLab <- function(){
       })
 
       # # # # # # # # # # # # # #    UI: timelines      # # # # # # # # # # # # # #
-      output$string_TimelineDescription01 <- renderUI({
-        tags$p(tr("string_TimelineDescription01"))
-      })
-
-      output$string_TimelineDescription02 <- renderUI({
-        tags$p(tr("string_TimelineDescription02"))
-      })
 
       output$string_TimelineDescription03 <- renderUI({
         tags$p(tr("string_TimelineDescription03"))
       })
 
-      output$string_TimelineDescription04 <- renderUI({
-        tags$p(tr("string_TimelineDescription04"))
+      output$string_TimelineDescription05 <- renderUI({
+        tags$p(tr("string_TimelineDescription05"))
+      })
+
+      output$string_TimelineDescription06 <- renderUI({
+        tags$p(tr("string_TimelineDescription06"))
       })
 
       # # # # # # # # # # # # # #    Parsing and computing      # # # # # # # # # # # # # #
@@ -197,7 +204,7 @@ launchIDLab <- function(){
         if (!is.null(inFile))
           parsed <- parses(inFile$datapath)
         else
-          parsed <- simulateMeeting(nTurns = 500, seed = 42) %>% dplyr::select(speaker,tag)
+          parsed <- simulateMeeting(nTurns = 150, seed = 42) %>% dplyr::select(speaker,tag)
 
         cleanupParsed(parsed)
       })
@@ -331,14 +338,13 @@ launchIDLab <- function(){
 
       # # # # # # # # # # # # # #    Timelines      # # # # # # # # # # # # # #
 
-      output$timeline <- renderPlot({
-        p <- plotTimeline(filteredData())
-        print(p)
+
+      output$timelineSlider <- renderPlot({
+        plotTimelineSlider(filteredData(), totalTurns(), input$startingPoint, input$windowSize)
       })
 
-      output$timeline2 <- renderPlot({
-        p <- plotTimeline2(filteredData())
-        print(p)
+      output$timelineWhole <- renderPlot({
+        plotTimelineWhole(filteredData(), totalTurns())
       })
 
       # # # # # # # # # # # # # #    Reports      # # # # # # # # # # # # # #
@@ -397,6 +403,7 @@ launchIDLab <- function(){
   tr("Please visit"), "<a href='http://interactionalDiscourseLab.net'>http://interactionalDiscourseLab.net</a>",
   "<h3>Change log</h3>
   <ul>
+  <li>27 May 2015: interactive timeline.</li>
   <li>24 May 2015: complete rewrite, packaging and published the code on github.</li>
   <li>02 Nov 2014: reports can be generated as pdf, Word document or html.</li>
   <li>05 Oct 2014: tag list now shows tag name instead of id.</li>

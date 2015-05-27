@@ -10,11 +10,20 @@
 #' tag
 #' @export
 simulateMeeting <- function(seed = NULL, nSpeakers = 4, nTurns = 50, nTags = 5){
+
   if(!is.null(seed)) set.seed(seed)
+
+  # from most popular names in the UK https://en.wikipedia.org/wiki/List_of_most_popular_given_names
+  speakers = c("Oliver", "Jack", "Harry", "Jacob", "Charlie","Thomas","Oscar","William","James","George",
+  "Amelia", "Olivia", "Emily", "Jessica", "Ava","Isla","Poppy","Isabella","Sophie","Mia") %>% sample(nSpeakers)
+
+  tags =c("question", "greeting","repeat","check", "confirmation","agree", "disagree", "initiate", "state", "explanation",
+          "qualify", "suggestion", "challenge", "joke", "offer", "refusal", "decision", "end", "closing", "proposal") %>% sample(nTags)
+
   data.frame(
-    speaker = sample(paste("simulatedSpeaker",1:nSpeakers,sep=''),nTurns, prob = runif(nSpeakers), replace = TRUE),
+    speaker = sample(speakers,nTurns, prob = runif(nSpeakers), replace = TRUE),
     speech = replicate(nTurns, paste(sample(c(letters, ' ', ',', '.', '!', '?'), sample(20:200,1), replace=TRUE),collapse='')),
-    tag = sample(paste("simulatedTag",1:nTags,sep=''),nTurns, prob = runif(nTags), replace = TRUE)
+    tag = sample(tags,nTurns, prob = runif(nTags), replace = TRUE)
   )
 
 }

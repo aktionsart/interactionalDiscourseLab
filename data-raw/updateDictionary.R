@@ -5,5 +5,4 @@
 translationContent <- read.delim("dictionary.csv", header = TRUE, sep = "\t", as.is = TRUE)
 translation <- plyr::dlply(translationContent ,plyr::.(key), function(s) key = as.list(s))
 
-#save(translation, file = "../translation.bin")
 devtools::use_data(translation, internal = TRUE, overwrite = TRUE)
