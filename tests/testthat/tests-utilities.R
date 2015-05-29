@@ -91,31 +91,31 @@ test_that("makeTurnTaking",{
 context("interactions")
 
 test_that("tagSequences",{
-  tags <- simulateMeeting(nTurns = 20, seed = 5) %>% select(-speech)  %>% cleanupParsed %>% makeTurnTaking %>% countTagSequence
+  tags <- simulateMeeting(nTurns = 15, seed = 5) %>% select(-speech)  %>% cleanupParsed %>% makeTurnTaking %>% countTagSequence
 
   truth <- data.frame(
-    tag1 = paste0("simulatedTag", c(1, 2, 2, 2, 3, 3, 5, 5, 5, 5)),
-    tag2 = paste0("simulatedTag", c(2, 2, 3, 5, 2, 5, 1, 2, 3, 5)),
-    n = c(1, 3, 1, 4, 1, 1, 1, 4, 1, 2),
-    proportion = c(100.0, 37.5, 12.5, 50, 50, 50, 12.5, 50, 12.5, 25))
+    tag1 = c("closing", "closing", "closing", "closing", "explanation", "explanation", "explanation","joke", "refusal", "repeat") ,
+    tag2 = c("explanation", "joke","refusal", "repeat","explanation", "refusal","repeat","explanation","closing", "closing"),
+    n = c(1, 1, 1, 2, 1, 1, 1, 1, 2, 3),
+    proportion = c(20, 20, 20, 40, 33.3333333, 33.3333333, 33.3333333, 100, 100, 100))
 
   expect_identical(as.character(tags$tag1), as.character(truth$tag1))
   expect_identical(as.character(tags$tag2), as.character(truth$tag2))
   expect_identical(as.character(tags$n), as.character(truth$n))
-  expect_identical(as.character(tags$proportion), as.character(truth$proportion))
+  expect_equal(tags$proportion, truth$proportion)
 })
 
 test_that("speakerSequences",{
   speakers <- simulateMeeting(nTurns = 20, seed = 55) %>% select(-speech)  %>% cleanupParsed %>% makeTurnTaking %>% countSpeakerSequence
 
   truth <- data.frame(
-    speaker1 = paste0("simulatedSpeaker", c(1, 1, 1, 2, 2, 4, 4, 4)),
-    speaker2 = paste0("simulatedSpeaker", c(1, 2, 4, 1, 4, 1, 2, 4)),
-    n = c(1, 1, 4, 1, 1, 3, 1, 7),
-    proportion = c(100/6, 100/6, 100*4/6, 50, 50, 100*3/11, 100/11, 100*7/11))
+    speaker1 = c("Amelia",  "Charlie", "Charlie", "Charlie", "Jessica", "Jessica"),
+    speaker2 = c("Charlie", "Amelia",  "Charlie", "Jessica", "Charlie", "Oliver"),
+    n = c(1, 1, 9, 4, 3, 1),
+    proportion = c(100, 7.142857,  64.285714, 28.571429,  75, 25))
 
   expect_identical(as.character(speakers$speaker1), as.character(truth$speaker1))
   expect_identical(as.character(speakers$speaker2), as.character(truth$speaker2))
   expect_identical(as.character(speakers$n), as.character(truth$n))
-  expect_identical(as.character(speakers$proportion), as.character(truth$proportion))
+  expect_equal(speakers$proportion,truth$proportion)
 })
