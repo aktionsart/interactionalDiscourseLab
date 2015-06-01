@@ -22,15 +22,15 @@
 launchIDLab <- function(){
 
   app <- list(
-  ui = fluidPage(
-    tags$h1("Interactional Discourse Lab"),
+  ui = shiny::fluidPage(
+    shiny::tags$h1("Interactional Discourse Lab"),
     sidebarLayout(
       sidebarPanel(
       uiOutput("uploadUI"),
-      tags$hr(),
+      shiny::tags$hr(),
       uiOutput("tagList"),
-      tags$hr(),
-      tags$h3("Language:"),
+      shiny::tags$hr(),
+      shiny::tags$h3("Language:"),
       radioButtons(inputId = "language", label = "",
                    choices = c("English" = "en", "Espa\u00f1ol" = "es"),
                    selected = "en"),
@@ -43,15 +43,15 @@ launchIDLab <- function(){
         id = "theTabs",
         tabPanel("Speakers and tags",
                  htmlOutput("sanityCheck"),
-                 tags$hr(),
+                 shiny::tags$hr(),
                  uiOutput("speakersTagsTitle"),
                  uiOutput("speakerParticipationText"),
                  showOutput("speakerParticipation","nvd3"),
-                 tags$hr(),
+                 shiny::tags$hr(),
                  uiOutput("tagsBySpeakerTitle"),
                  uiOutput("tagsBySpeakerText"),
                  showOutput("tagBySpeakerNormalised","nvd3"),
-                 tags$hr(),
+                 shiny::tags$hr(),
                  uiOutput("speakersByTagTitle"),
                  uiOutput("speakersByTagText"),
                  showOutput("speakerByTagNormalised","nvd3")#,
@@ -62,11 +62,11 @@ launchIDLab <- function(){
                  uiOutput("string_NetworkDescription"),
                  uiOutput("string_ConfidenceInterval"),
                  uiOutput("noteTagSelection"),
-                 tags$hr(),
+                 shiny::tags$hr(),
                  uiOutput("interactionTags"),
                  uiOutput("string_TagNetwork"),
                  plotOutput("tagNetwork",height="600px"),
-                 tags$hr(),
+                 shiny::tags$hr(),
                  uiOutput("interactionSpeakers"),
                  uiOutput("string_SpeakerNetwork"),
                  plotOutput("speakerNetwork",height="600px")
@@ -101,20 +101,20 @@ launchIDLab <- function(){
       output$savingOptionsUI <- renderUI({
         conditionalPanel(
         condition = "input.theTabs == 'Saving'",
-        tags$hr(),
-        tags$h3(tr("Saving options")),
+        shiny::tags$hr(),
+        shiny::tags$h3(tr("Saving options")),
         downloadButton('downloadReportPDF', tr('Save as pdf')),
-        tags$br(),tags$br(),
+        shiny::tags$br(),shiny::tags$br(),
         downloadButton('downloadReportDocx', tr('Save as a Word document')),
-        tags$br(),tags$br(),
+        shiny::tags$br(),shiny::tags$br(),
         downloadButton('downloadReportHTML', tr('Save as a webpage')))
       })
 
       output$timelineSliderUI <- renderUI({
         conditionalPanel(
           condition = "input.theTabs == 'Timeline'",
-          tags$hr(),
-          tags$h3(tr("Timeline controls")),
+          shiny::tags$hr(),
+          shiny::tags$h3(tr("Timeline controls")),
           sliderInput("startingPoint", tr("Starting point"), 1, totalTurns(), 1, step = 1),
           sliderInput("windowSize", tr("Window size"), 5, max(20, totalTurns()), 20, step = 1)
         )
@@ -127,67 +127,67 @@ launchIDLab <- function(){
       # # # # # # # # # # # # # #    UI: speakers and tags      # # # # # # # # # # # # # #
 
       output$speakersTagsTitle <- renderUI({
-        tags$h3(tr("Speaker Participation"))
+        shiny::tags$h3(tr("Speaker Participation"))
         })
 
       output$speakerParticipationText <- renderUI({
-        tags$p(tr("string_SpeakerParticipation"))
+        shiny::tags$p(tr("string_SpeakerParticipation"))
       })
 
       output$tagsBySpeakerTitle <- renderUI({
-        tags$h3(tr("Tags used by each speaker"))
+        shiny::tags$h3(tr("Tags used by each speaker"))
       })
 
       output$tagsBySpeakerText <- renderUI({
-        tags$p(tr("string_TagsUsedByEachSpeaker"))
+        shiny::tags$p(tr("string_TagsUsedByEachSpeaker"))
       })
 
       output$speakersByTagTitle <- renderUI({
-        tags$h3(tr("Tags used by each speaker"))
+        shiny::tags$h3(tr("Tags used by each speaker"))
       })
 
       output$speakersByTagText <- renderUI({
-        tags$p(tr("string_SpeakersByTag"))
+        shiny::tags$p(tr("string_SpeakersByTag"))
       })
 
       # # # # # # # # # # # # # #    UI: Interactions      # # # # # # # # # # # # # #
 
       output$string_NetworkDescription <- renderUI({
-        tags$p(tr("string_NetworkDescription"))
+        shiny::tags$p(tr("string_NetworkDescription"))
       })
 
       output$string_ConfidenceInterval <- renderUI({
-        tags$p(tr("string_ConfidenceInterval"))
+        shiny::tags$p(tr("string_ConfidenceInterval"))
       })
 
       output$noteTagSelection <- renderUI({
-        tags$em(tr("Note: turns considered are those whose tag is in the current selection."))
+        shiny::tags$em(tr("Note: turns considered are those whose tag is in the current selection."))
       })
 
       output$interactionTags <- renderUI({
-        tags$h3(tr("Interactions between tags, for contiguous turns"))
+        shiny::tags$h3(tr("Interactions between tags, for contiguous turns"))
       })
 
       output$interactionSpeakers <- renderUI({
-        tags$h3(tr("Interactions between speakers, for contiguous turns"))
+        shiny::tags$h3(tr("Interactions between speakers, for contiguous turns"))
       })
 
       output$string_SpeakerNetwork <- renderUI({
-        tags$p(tr("string_SpeakerNetwork"))
+        shiny::tags$p(tr("string_SpeakerNetwork"))
       })
 
       # # # # # # # # # # # # # #    UI: timelines      # # # # # # # # # # # # # #
 
       output$string_TimelineDescription03 <- renderUI({
-        tags$p(tr("string_TimelineDescription03"))
+        shiny::tags$p(tr("string_TimelineDescription03"))
       })
 
       output$string_TimelineDescription05 <- renderUI({
-        tags$p(tr("string_TimelineDescription05"))
+        shiny::tags$p(tr("string_TimelineDescription05"))
       })
 
       output$string_TimelineDescription06 <- renderUI({
-        tags$p(tr("string_TimelineDescription06"))
+        shiny::tags$p(tr("string_TimelineDescription06"))
       })
 
       # # # # # # # # # # # # # #    Parsing and computing      # # # # # # # # # # # # # #
@@ -414,5 +414,5 @@ launchIDLab <- function(){
 
   )
 
-  runApp(app)
+  shiny::runApp(app)
 }

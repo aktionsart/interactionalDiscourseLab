@@ -46,6 +46,24 @@ test_that("parsing text file, all turns are tagged",{
   expect_identical(Y$turn, 1:10)
 })
 
+test_that("parsing text file, not all turns are tagged, some multiline speeches",{
+  X<-"
+SP1: this is the first sentence
+SP2: this is the second sentence/atag/
+ another sentence/anothertag/
+SP3: and speaker 3
+ foo /atag/
+   bar"
+  filename <- "test_parse.txt"
+
+  cat(X, file = filename)
+  Y <- parses(filename)
+
+  expect_identical(as.character(Y$speaker), c("SP1", "SP2", "SP3"))
+  expect_identical(as.character(Y$tag), c(NA,"anothertag","atag"))
+
+})
+
 test_that("parsing text file, not all turns are tagged",{
   X <- simulateMeeting(seed = 44, nTurns = 10)
   filename <- "test_parse.txt"

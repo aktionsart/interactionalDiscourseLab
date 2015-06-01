@@ -58,9 +58,20 @@ parses <- function(filename){
       if(is.na(x)) NA else stringr::str_sub(x,start=2,end=-2)
   )
 
-  data.frame(
+  df <- data.frame(
     speaker = speakers,
     tag = tags)
+  index <- which(is.na(df$speaker))
+
+  if(length(index) == 0)
+    return(df)
+  # deals with multilines: reduce to one line and keep the latest tag, if any.
+  for(k in rev(index)){
+    if(!is.na(df$tag[k]))
+      df$tag[k - 1] <- df$tag[k]
+  }
+  df <- df[-index,]
+  df
 }
 
 # tidy up the parsed file
