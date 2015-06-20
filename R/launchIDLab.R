@@ -63,13 +63,14 @@ launchIDLab <- function(){
                  uiOutput("string_ConfidenceInterval"),
                  uiOutput("noteTagSelection"),
                  shiny::tags$hr(),
+                 uiOutput("interactionSpeakers"),
+                 uiOutput("string_SpeakerNetwork"),
+                 plotOutput("speakerNetwork",height="600px"),
+                 shiny::tags$hr(),
                  uiOutput("interactionTags"),
                  uiOutput("string_TagNetwork"),
                  plotOutput("tagNetwork",height="600px"),
-                 shiny::tags$hr(),
-                 uiOutput("interactionSpeakers"),
-                 uiOutput("string_SpeakerNetwork"),
-                 plotOutput("speakerNetwork",height="600px")
+                 plotOutput("secondaryLevelMatrix", width = "600px", height = "600px")
         ),
 
         tabPanel("Timeline",
@@ -235,7 +236,6 @@ launchIDLab <- function(){
         filteredData() %>% dplyr::count(tag)
       })
 
-
       # tag usage per speaker
       proportionTagPerSpeaker <- reactive({
         filteredData() %>% count0(speaker, tag) %>%
@@ -336,6 +336,9 @@ launchIDLab <- function(){
         plotSequence(countSpeakerSequence(turnTaking()), countSpeakers()$n, tr("Contiguous turn takings"))
       })
 
+      output$secondaryLevelMatrix <-renderPlot({
+        interactionMatrix(turnTaking())
+      })
       # # # # # # # # # # # # # #    Timelines      # # # # # # # # # # # # # #
 
 
