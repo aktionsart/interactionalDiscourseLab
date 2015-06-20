@@ -16,7 +16,7 @@ makeReportHTML <- function(file, filename, filteredData,
 
 makeReportPDF <- function(file, filename, filteredData,
                           countSpeakers, countTags, proportionTagPerSpeaker, proportionSpeakerPerTag, # speakers and tags
-                          tagSequences, speakerSequences                             # interactions
+                          tagSequences, speakerSequences # interactions
                           ){
   rmarkdown::render(system.file("extdata", "IDLabReport.Rmd", package = "interactionalDiscourseLab"), "pdf_document", output_file = paste0(file,".pdf"))
   file.rename(paste0(file,".pdf"), file)
