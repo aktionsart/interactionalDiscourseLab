@@ -51,7 +51,7 @@ parses <- function(filename){
   close(connection)
 
   speakers <- stringr::str_extract(content,"^[A-Z,a-z,0-9]+")
-  tags <- stringr::str_extract(content,"/[A-Z,a-z,0-9]*/");
+  tags <- stringr::str_replace_all(stringr::str_extract(content,"/[^/]*/"), " ", "");
   tags <- sapply(
     tags,
     function(x)
