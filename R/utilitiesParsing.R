@@ -28,6 +28,12 @@ simulateMeeting <- function(seed = NULL, nSpeakers = 4, nTurns = 50, nTags = 5){
 
 }
 
+# get top level tags from a list of tags
+getTopLevelTags <- function(s){
+  stringr::str_extract(s,"^[^,]*")
+}
+
+
 # same as dplyr::count but includes counts of 0
 count0 <- function(x, ..., wt = NULL, sort=FALSE){
   vars <- lazyeval::lazy_dots(...)
@@ -146,6 +152,14 @@ makeConsecutiveTaggedTurns <- function(v){
 # # # # # # # # # # # # #      interactions   # # # # # # # # # # # # #
 countTagSequence <- function(turnTaking){
   turnTaking %>% dplyr::count(tag1, tag2) %>% dplyr::group_by(tag1) %>% dplyr::mutate(proportion = 100*n/sum(n)) %>% dplyr::arrange(tag1)
+}
+
+countTopLevelTagSequence <- function(turnTaking){
+  turnTaking %>% dplyr::mutate(TL1 = getTopLevelTags(tag1), TL2 = getTopLevelTags(tag2)) %>%
+    dplyr::count(TL1, TL2) %>%
+    dplyr::group_by(TL1) %>%
+    dplyr::mutate(proportion = 100*n/sum(n)) %>%
+    dplyr::arrange(TL1)
 }
 
 countSpeakerSequence <-  function(turnTaking) {

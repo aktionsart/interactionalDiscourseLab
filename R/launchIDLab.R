@@ -236,6 +236,11 @@ launchIDLab <- function(){
         filteredData() %>% dplyr::count(tag)
       })
 
+      # Global top level tag usage
+      countTopLevelTags <- reactive({
+        filteredData() %>% dplyr::mutate( TL = stringr::str_extract(tag, "^[^,]"))%>% dplyr::count(TL)
+      })
+
       # tag usage per speaker
       proportionTagPerSpeaker <- reactive({
         filteredData() %>% count0(speaker, tag) %>%
@@ -329,7 +334,7 @@ launchIDLab <- function(){
       # # # # # # # # # # # # # #    interactions      # # # # # # # # # # # # # #
 
       output$tagNetwork <- renderPlot({
-        plotSequence(countTagSequence(turnTaking()), countTags()$n, tr("Tag types sequences"))
+        plotSequence(countTopLevelTagSequence(turnTaking()), countTopLevelTags()$n, tr("Tag types sequences"))
       })
 
       output$speakerNetwork <- renderPlot({

@@ -71,7 +71,6 @@ plotSequence <- function(itemSequence, itemCount, title){
 }
 
 interactionMatrix <- function(u){ # u is from makeTurnTaking()
-
   # top and secondary levels
   explode <- stringr::str_split_fixed(u$tag1, ",", n = 2)
   u$TL1 <- explode[,1]
@@ -82,11 +81,13 @@ interactionMatrix <- function(u){ # u is from makeTurnTaking()
   u$TL2 <- explode[,1]
   u$SL2 <- explode[,2]
 
-  X <- u %>% dplyr::filter(TL1 == TL2, SL1 !="", SL2 !="") %>% count(TL1, SL1, SL2) %>% group_by(TL1) %>% mutate(p = n/sum(n))
+  X <- u %>% dplyr::filter(TL1 == TL2, SL1 !="", SL2 !="") %>% count(TL1, SL1, SL2) %>% group_by(TL1,SL1) %>% mutate(freq = n/sum(n))
   if(nrow(X) == 0)
     return(NULL)
 
-  ggplot(X) + geom_tile(aes(x=SL1, y = SL2, fill = p))+ facet_wrap(~TL1, nrow = 2, scales = "free")
+  ggplot(X) + geom_tile(aes(x=SL2, y = SL1, fill = freq)) +
+    facet_wrap(~TL1, nrow = 2, scales = "free") + xlab("") + ylab("") +
+    scale_fill_gradient2()
 }
 
 ################################
