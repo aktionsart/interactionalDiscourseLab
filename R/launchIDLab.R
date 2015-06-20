@@ -243,13 +243,13 @@ launchIDLab <- function(){
 
       # tag usage per speaker
       proportionTagPerSpeaker <- reactive({
-        filteredData() %>% count0(speaker, tag) %>%
+        filteredData() %>% mutate(tag = factor(tag))%>% count0(speaker, tag) %>%
           dplyr::group_by(speaker) %>% dplyr::mutate(proportion = 100*n/sum(n))
       })
 
       # Speaker occurence per tag
       proportionSpeakerPerTag <- reactive({
-        filteredData() %>% count0(speaker, tag) %>%
+        filteredData() %>% mutate(tag = factor(tag)) %>% count0(speaker, tag) %>%
           dplyr::group_by(tag) %>% dplyr::mutate(proportion = 100*n/sum(n))
 
       })
