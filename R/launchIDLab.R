@@ -214,15 +214,15 @@ launchIDLab <- function(){
 
       # list of tags from the original data
       output$tagList <- renderUI({
-        tags <- sort(unique(as.character(readFile()$tag)))
+        tags <- stringr::str_extract(as.character(readFile()$tag), "^[^,]*") %>% unique %>% sort
         checkboxGroupInput("tagsOfInterest", tr("Selected tags:"), tags, selected = tags)
       })
 
       # original data filtered for tags of interest
       filteredData <- reactive({
         xx <- readFile()
-        xx$period <- makeConsecutiveTaggedTurns(xx$tag %in% input$tagsOfInterest)
-        xx %>% dplyr::filter(tag %in% input$tagsOfInterest)
+        xx$period <- makeConsecutiveTaggedTurns(xx$tag %in% getSelectedTagsFromTopLevelTags(as.character(xx$tag), input$tagsOfInterest))
+        xx %>% dplyr::filter(tag %in% getSelectedTagsFromTopLevelTags(as.character(xx$tag), input$tagsOfInterest))
       })
 
       # Global speaker participation

@@ -39,6 +39,13 @@ count0 <- function(x, ..., wt = NULL, sort=FALSE){
   suppressMessages(dplyr::count_(x, vars, wt, sort = sort) %>% dplyr::right_join(combinations) %>% dplyr::mutate(n = (function(x) {x[is.na(x)]<-0;x})(n)))
 }
 
+# from list of top level tags to selected tags
+getSelectedTagsFromTopLevelTags <- function(allTags, selectedTopLevels){
+  x <- stringr::str_extract(allTags, "^[^,]*")
+  index <- which(x %in% selectedTopLevels)
+  unique(allTags[index])
+}
+
 # parses a text file and populates a data frame
 # @param filename path and filename of the transcript
 #
