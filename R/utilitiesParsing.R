@@ -28,11 +28,22 @@ simulateMeeting <- function(seed = NULL, nSpeakers = 4, nTurns = 50, nTags = 5){
 
 }
 
+# has secondary level tags
+hasSecondaryLevelTags <- function(df){
+  sl <- stringr::str_split_fixed(df$tag, ",", n = 2)[,2]
+  any(sl != "")
+}
+
+
 # get top level tags from a list of tags
 getTopLevelTags <- function(s){
   stringr::str_extract(s,"^[^,]*")
 }
 
+# translates text into current language
+translate <- function(text, language){
+  sapply(text,function(s) translation[[s]][[language]], USE.NAMES = FALSE)
+}
 
 # same as dplyr::count but includes counts of 0
 count0 <- function(x, ..., wt = NULL, sort=FALSE){

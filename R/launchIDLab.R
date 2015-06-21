@@ -77,8 +77,9 @@ launchIDLab <- function(){
                  uiOutput("string_TimelineDescription03"),
                  uiOutput("string_TimelineDescription05"),
                  plotOutput("timelineSlider", height="500px"),
+                 uiOutput("string_TimelineDescription06"),
                  plotOutput("timelineWhole", height="100px"),
-                 uiOutput("string_TimelineDescription06")
+                 plotOutput("timelineWholeTopLevelTags", height="300px")
         ),
 
         tabPanel("Saving",
@@ -95,9 +96,7 @@ launchIDLab <- function(){
       # # # # # # # # # # # # # #    reactive functions to feed the GUI  # # # # # # # # # # # # # #
 
       # translates text into current language
-      tr <- function(text){
-        sapply(text,function(s) translation[[s]][[input$language]], USE.NAMES = FALSE)
-      }
+      tr <- function(text) translate(text,input$language)
 
       output$savingOptionsUI <- renderUI({
         conditionalPanel(
@@ -352,7 +351,13 @@ launchIDLab <- function(){
       })
 
       output$timelineWhole <- renderPlot({
-        plotTimelineWhole(filteredData(), totalTurns())
+        plotTimelineWhole(readFile())
+      })
+
+      output$timelineWholeTopLevelTags <- renderPlot({
+        if(hasSecondaryLevelTags(readFile()))
+          plotTimelineWholeTopLevelTags(readFile())
+        else NULL
       })
 
       # # # # # # # # # # # # # #    Reports      # # # # # # # # # # # # # #
@@ -369,18 +374,18 @@ launchIDLab <- function(){
       output$downloadReportDocx <- downloadHandler(
         filename = "IDLabreport.docx",
         content = function(file){
-          makeReportDocx(file, filename(), filteredData(),
+          makeReportDocx(file, filename(), readFile(),filteredData(),
                          countSpeakers(), countTags(), proportionTagPerSpeaker(), proportionSpeakerPerTag(), # speakers and tags
-                         countTagSequence(turnTaking()), countSpeakerSequence(turnTaking()))                  # interactions)
+                         countTagSequence(turnTaking()), countSpeakerSequence(turnTaking()), tr)                  # interactions)
         }
       )
       output$downloadReportHTML <- downloadHandler(
         filename = "IDLabreport.html",
         content = function(file){
           makeReportHTML(
-            file, filename(), filteredData(),
+            file, filename(), readFile(),filteredData(),
             countSpeakers(), countTags(), proportionTagPerSpeaker(), proportionSpeakerPerTag(), # speakers and tags
-            countTagSequence(turnTaking()), countSpeakerSequence(turnTaking()))                  # interactions)
+            countTagSequence(turnTaking()), countSpeakerSequence(turnTaking()), tr)                  # interactions)
         }
       )
 
@@ -388,9 +393,9 @@ launchIDLab <- function(){
         filename = "report.pdf",
         content = function(file){
           makeReportPDF(
-            file, filename(), filteredData(),
+            file, filename(), readFile(), filteredData(),
             countSpeakers(), countTags(), proportionTagPerSpeaker(), proportionSpeakerPerTag(), # speakers and tags
-            countTagSequence(turnTaking()), countSpeakerSequence(turnTaking())                  # interactions
+            countTagSequence(turnTaking()), countSpeakerSequence(turnTaking()), tr                  # interactions
             )
         },
         contentType = "application/pdf"

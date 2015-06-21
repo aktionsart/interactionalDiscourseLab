@@ -134,7 +134,7 @@ plotTimelineSlider <- function(filteredData, n, startingPoint, windowSize){
 
 }
 
-plotTimelineWhole <- function(filteredData, totalTurns){
+plotTimelineWhole <- function(cleanupParsedData){
   themeBlank <- theme(axis.line=element_blank(),
                       axis.text.x=element_blank(),
                       axis.text.y=element_blank(),
@@ -147,12 +147,22 @@ plotTimelineWhole <- function(filteredData, totalTurns){
                       panel.grid.major=element_blank(),
                       panel.grid.minor=element_blank(),
                       plot.background=element_blank())
-  ggplot(filteredData) +
+
+  cleanupParsedData$TL <- getTopLevelTags(cleanupParsedData$tag)
+
+  ggplot(cleanupParsedData) +
     geom_rect(aes(xmin = turn , xmax = turn + 1, fill = factor(speaker), ymin = 1, ymax = 2),   colour = NA) +
     geom_rect(aes(xmin = turn, xmax = turn + 1, fill = factor(tag), ymin = 2, ymax = 3),   colour = NA) +
-    geom_rect(data = data.frame(xmin = 1, xmax = totalTurns + 1 , ymin = 1, ymax = 3), aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), colour="black", fill = NA)+
+    geom_rect(data = data.frame(xmin = 1, xmax = nrow(cleanupParsedData) + 1 , ymin = 1, ymax = 3), aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), colour="black", fill = NA)+
     themeBlank
 }
+
+plotTimelineWholeTopLevelTags <- function(cleanupParsedData){
+  cleanupParsedData$TL <- getTopLevelTags(cleanupParsedData$tag)
+
+  plotTimelineWhole(cleanupParsedData) + facet_wrap(~TL, ncol = 1)
+}
+
 
 plotTimeline <- function(parsed, windowSize = 30, title = "Timeline"){
   index <- 1:nrow(parsed)
