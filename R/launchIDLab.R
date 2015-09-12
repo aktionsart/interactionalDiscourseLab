@@ -237,7 +237,7 @@ launchIDLab <- function(){
 
       # Global top level tag usage
       countTopLevelTags <- reactive({
-        filteredData() %>% dplyr::mutate( TL = stringr::str_extract(tag, "^[^,]"))%>% dplyr::count(TL)
+        filteredData() %>% dplyr::mutate( TL = stringr::str_extract(tag, "^[^,]*"))%>% dplyr::count(TL)
       })
 
       # tag usage per speaker
