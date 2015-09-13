@@ -104,8 +104,8 @@ launchIDLab <- function(){
         shiny::tags$hr(),
         shiny::tags$h3(tr("Saving options")),
         downloadButton('downloadReportPDF', tr('Save as pdf')),
-        shiny::tags$br(),shiny::tags$br(),
-        downloadButton('downloadReportDocx', tr('Save as a Word document')),
+#         shiny::tags$br(),shiny::tags$br(),
+#         downloadButton('downloadReportDocx', tr('Save as a Word document')),
         shiny::tags$br(),shiny::tags$br(),
         downloadButton('downloadReportHTML', tr('Save as a webpage')))
       })
@@ -366,7 +366,7 @@ launchIDLab <- function(){
         paste(
           tr("Save your analysis either as"),
           "<ul>", "<li>", tr("a pdf document."), "</li>",
-  "<li>", tr("a Word document."), "</li>",
+  "<li>", "<strike>", tr("a Word document."), "</strike> (disabled for now. Use the html version if you want to capture the images)", "</li>",
   "<li>", tr("a standalone webpage."),"</li>","</ul>",
   "<br/>", tr("Generating the report can take a few seconds."))
       }
