@@ -82,8 +82,9 @@ if(secondaryLevel){
 
 ```{r, echo=FALSE, fig.align='center'}
 if(secondaryLevel){
-  countTopLevelTags <- filteredData %>% dplyr::mutate( TL = stringr::str_extract(tag, "^[^,]"))%>% dplyr::count(TL)
+  countTopLevelTags <- filteredData %>% dplyr::mutate( TL = stringr::str_extract(tag, "^[^,]*"))%>% dplyr::count(TL)
   tagSequences <- filteredData %>% makeTurnTaking %>% countTopLevelTagSequence
+  
   plotSequence( tagSequences, countTopLevelTags$n, tr("Category sequences"))
   
   filteredData %>% makeTurnTaking %>% interactionMatrix %>% print

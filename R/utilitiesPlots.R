@@ -85,9 +85,24 @@ interactionMatrix <- function(u){ # u is from makeTurnTaking()
   if(nrow(X) == 0)
     return(NULL)
 
+  # Matrices
   ggplot(X) + geom_tile(aes(x=SL2, y = SL1, fill = freq)) +
     facet_wrap(~TL1, nrow = 2, scales = "free") + xlab("") + ylab("") +
     scale_fill_gradient2()
+
+  # individual networks
+  #   nTopLevelTags <- length(unique(X$TL1))
+#
+#   # op <- par(mfcol = c(ceiling(nTopLevelTags / 2), 2))
+#   op <- par(mfcol = c(nTopLevelTags , 1))
+#   for(tl in unique(X$TL)){
+#     x <- X %>% dplyr::filter(TL1 == tl) %>% dplyr::mutate(proportion = 100*freq) %>% dplyr::ungroup() %>% dplyr::select(SL1, SL2, proportion)
+#     itemCount <- rep(1, c(x$SL1, x$SL2) %>% unique %>% length)
+#
+#     plotSequence(x, itemCount, tl)
+#   }
+#
+#   par(op)
 }
 
 ################################
